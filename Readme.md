@@ -1,24 +1,14 @@
-# Node.js Style Guide
+# Javascript Style Guide
 
-This is a guide for writing consistent and aesthetically pleasing node.js code.
-It is inspired by what is popular within the community, and flavored with some
-personal opinions.
+This is a guide for writing consistent JavaScript.
 
-There is a .jshintrc which enforces these rules as closely as possible. You can
-either use that and adjust it, or use
-[this script](https://gist.github.com/kentcdodds/11293570) to make your own.
+There is a .jshintrc which enforces these rules as closely as possible.
 
-This guide was created by [Felix Geisendörfer](http://felixge.de/) and is
-licensed under the [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/)
-license. You are encouraged to fork this repository and make adjustments
-according to your preferences.
-
-![Creative Commons License](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)
+This guide was largely taken from [Felix Geisendörfer's node style guide](https://github.com/felixge/node-style-guide). It has been modified to keep inline with our own opinions.
 
 ## Table of contents
 
 * [2 Spaces for indention](#2-spaces-for-indention)
-* [Newlines](#newlines)
 * [No trailing whitespace](#no-trailing-whitespace)
 * [Use Semicolons](#use-semicolons)
 * [80 characters per line](#80-characters-per-line)
@@ -31,26 +21,20 @@ according to your preferences.
 * [Use UPPERCASE for Constants](#use-uppercase-for-constants)
 * [Object / Array creation](#object--array-creation)
 * [Use the === operator](#use-the--operator)
-* [Use multi-line ternary operator](#use-multi-line-ternary-operator)
+* [Spacings for function declaration](#spacings-for-function-declaration)
+* [Write small functions](#write-small-functions)
+* [Name your closures](#name-your-closures)
+* [No nested closures](#no-nested-closures)
 * [Use slashes for comments](#use-slashes-for-comments)
-* [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
-* [Getters and setters](#getters-and-setters)
 
 ## 2 Spaces for indention
 
-Use 2 spaces for indenting your code and swear an oath to never mix tabs and
-spaces - a special kind of hell is awaiting you otherwise.
-
-## Newlines
-
-Use UNIX-style newlines (`\n`), and a newline character as the last character
-of a file. Windows-style newlines (`\r\n`) are forbidden inside any repository.
+Use 2 spaces for indenting your code and never mix tabs and
+spaces.
 
 ## No trailing whitespace
 
-Just like you brush your teeth after every meal, you clean up any trailing
-whitespace in your JS files before committing. Otherwise the rotten smell of
-careless neglect will eventually drive away contributors and/or co-workers.
+Clean up any trailing whitespace in your JS files before committing. Most IDEs will have an option to do this on save.
 
 ## Use Semicolons
 
@@ -64,9 +48,7 @@ cheap syntactic pleasures.
 
 ## 80 characters per line
 
-Limit your lines to 80 characters. Yes, screens have gotten much bigger over the
-last few years, but your brain has not. Use the additional room for split screen,
-your editor supports that, right?
+Try to limit your lines to 80 characters.
 
 ## Use single quotes
 
@@ -91,7 +73,7 @@ Your opening braces go on the same line as the statement.
 *Right:*
 
 ```js
-if (true) {
+if(true) {
   console.log('winning');
 }
 ```
@@ -99,13 +81,11 @@ if (true) {
 *Wrong:*
 
 ```js
-if (true)
+if(true)
 {
   console.log('losing');
 }
 ```
-
-Also, notice the use of whitespace before and after the condition statement.
 
 ## Method chaining
 
@@ -153,10 +133,7 @@ User.findOne({ name: 'foo' }).populate('bar')
 
 ## Declare one variable per var statement
 
-Declare one variable per var statement, it makes it easier to re-order the
-lines. However, ignore [Crockford][crockfordconvention] when it comes to
-declaring variables deeper inside a function, just put the declarations wherever
-they make sense.
+Declare one variable per var statement.
 
 *Right:*
 
@@ -184,8 +161,6 @@ while (keys.length) {
   object[key] = values.pop();
 }
 ```
-
-[crockfordconvention]: http://javascript.crockford.com/code.html
 
 ## Use lowerCamelCase for variables, properties and function names
 
@@ -228,10 +203,6 @@ function bank_Account() {
 Constants should be declared as regular variables or static class properties,
 using all uppercase letters.
 
-Node.js / V8 actually supports mozilla's [const][const] extension, but
-unfortunately that cannot be applied to class members, nor is it part of any
-ECMA standard.
-
 *Right:*
 
 ```js
@@ -251,8 +222,6 @@ function File() {
 }
 File.fullPermissions = 0777;
 ```
-
-[const]: https://developer.mozilla.org/en/JavaScript/Reference/Statements/const
 
 ## Object / Array creation
 
@@ -306,51 +275,6 @@ if (a == '') {
 
 [comparisonoperators]: https://developer.mozilla.org/en/JavaScript/Reference/Operators/Comparison_Operators
 
-## Use multi-line ternary operator
-
-The ternary operator should not be used on a single line. Split it up into multiple lines instead.
-
-*Right:*
-
-```js
-var foo = (a === b)
-  ? 1
-  : 2;
-```
-
-*Wrong:*
-
-```js
-var foo = (a === b) ? 1 : 2;
-```
-
-## Do not extend built-in prototypes
-
-Do not extend the prototype of native JavaScript objects. Your future self will
-be forever grateful.
-
-*Right:*
-
-```js
-var a = [];
-if (!a.length) {
-  console.log('winning');
-}
-```
-
-*Wrong:*
-
-```js
-Array.prototype.empty = function() {
-  return !this.length;
-}
-
-var a = [];
-if (a.empty()) {
-  console.log('losing');
-}
-```
-
 ## Use descriptive conditions
 
 Any non-trivial conditions should be assigned to a descriptively named variable or function:
@@ -373,11 +297,39 @@ if (password.length >= 4 && /^(?=.*\d).{4,}$/.test(password)) {
 }
 ```
 
+
+## Spacings for function declaration
+
+Use no space before parentheses.
+Use one space before the curly braces.
+
+*Right:*
+
+```js
+function getId() {
+  // function body
+}
+```
+
+*Wrong:*
+
+```js
+function getId () {
+  // function body
+}
+```
+
+*Wrong:*
+
+```js
+function getId(){
+  // function body
+}
+```
+
 ## Write small functions
 
-Keep your functions short. A good function fits on a slide that the people in
-the last row of a big room can comfortably read. So don't count on them having
-perfect vision and limit yourself to ~15 lines of code per function.
+Keep your functions short. Short functions allow readers to follow logic much clearer.
 
 ## Return early from functions
 
@@ -428,22 +380,22 @@ function isPercentage(val) {
 
 ## Name your closures
 
-Feel free to give your closures a name. It shows that you care about them, and
-will produce better stack traces, heap and cpu profiles.
+Name your closures. Anonymous functions make debugging a nightmare.
+Naming functions allows us to produce better stack traces, and dramatically helps us when running profile tests.
 
 *Right:*
 
 ```js
-req.on('end', function onEnd() {
-  console.log('winning');
+element.on('click', function doSomethingCrazy() {
+  console.log('crazy stuff');
 });
 ```
 
 *Wrong:*
 
 ```js
-req.on('end', function() {
-  console.log('losing');
+element.on('click', function() {
+  console.log('crazy stuff');
 });
 ```
 
@@ -477,7 +429,7 @@ setTimeout(function() {
 
 Use slashes for both single line and multi line comments. Try to write
 comments that explain higher level mechanisms or clarify difficult
-segments of your code. Don't use comments to restate trivial things.
+segments of your code.
 
 *Right:*
 
@@ -516,17 +468,3 @@ if (isSessionValid) {
   // ...
 }
 ```
-
-## Object.freeze, Object.preventExtensions, Object.seal, with, eval
-
-Crazy shit that you will probably never need. Stay away from it.
-
-## Getters and setters
-
-Do not use setters, they cause more problems for people who try to use your
-software than they can solve.
-
-Feel free to use getters that are free from [side effects][sideeffect], like
-providing a length property for a collection class.
-
-[sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
