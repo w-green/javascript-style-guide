@@ -29,6 +29,8 @@ This guide was largely taken from [Felix Geisendörfer's node style guide](https
 * [Don't use switch](#dont-use-switch)
 * [Don't use eval](#dont-use-eval)
 
+Follow the link to see instructions on using the jshint file... [Using the jshint file](#using-the-jshint-file)
+
 
 ## 2 Spaces for indention
 
@@ -542,7 +544,7 @@ The desire to use eval() should be considered a code smell (as in, "something sm
 
 .......................
 
-Using the jshint file
+## Using the jshint file
 
 A quick guide is below but if you wanted to look into jshint further you can find the [docs here](http://jshint.com/docs/).
 
