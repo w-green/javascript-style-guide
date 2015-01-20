@@ -26,6 +26,9 @@ This guide was largely taken from [Felix Geisendörfer's node style guide](https
 * [Name your closures](#name-your-closures)
 * [No nested closures](#no-nested-closures)
 * [Use slashes for comments](#use-slashes-for-comments)
+* [Don't use switch](#dont-use-switch)
+* [Don't use eval](#dont-use-eval)
+
 
 ## 2 Spaces for indention
 
@@ -468,3 +471,72 @@ if (isSessionValid) {
   // ...
 }
 ```
+
+## Don't use switch
+
+Say you're creating a game where the nonplayer fight actions are selected based on an algorithm defined elsewhere and passed in to doAction as a string. The switch ... case form looks like this:
+
+```js
+function doAction(action) {
+  switch (action) {
+    case 'hack':
+      return 'hack';
+    break;
+
+    case 'slash':
+      return 'slash';
+    break;
+
+    case 'run':
+      return 'run';
+    break;
+
+    default:
+      throw new Error('Invalid action.');
+    break;
+  }
+}
+```
+
+The method lookup version looks like this:
+
+```js
+function doAction(action) {
+  var actions = {
+    'hack': function () {
+      return 'hack';
+    },
+
+    'slash': function () {
+      return 'slash';
+    },
+
+    'run': function () {
+      return 'run';
+    }
+  };
+
+  if (typeof actions[action] !== 'function') {
+    throw new Error('Invalid action.');
+  }
+
+
+  return actions[action]();
+}
+```
+
+At first glance, it might seem like this is more complicated syntax, but it has a few advantages:
+
+- It uses the standard curly-bracket blocks used everywhere else in JavaScript.
+
+- You never have to worry about remembering the break.
+
+- Method lookup is much more flexible. Using an action object allows you to alter the cases dynamically at runtime, for example, to allow dynamically loaded modules to extend cases, or even swap out some or all of the cases for modal context switching.
+
+- Method lookup is object oriented by definition. With switch ... case, your code is more procedural.
+
+## Don't use eval
+
+The desire to use eval() should be considered a code smell (as in, "something smells fishy"). It's a good indication that there is probably a better way to accomplish what you're after.
+
+
