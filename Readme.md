@@ -540,3 +540,24 @@ At first glance, it might seem like this is more complicated syntax, but it has 
 The desire to use eval() should be considered a code smell (as in, "something smells fishy"). It's a good indication that there is probably a better way to accomplish what you're after.
 
 
+.......................
+
+Using the jshint file
+
+A quick guide is below but if you wanted to look into jshint further you can find the [docs here](http://jshint.com/docs/).
+
+Install jshint globally
+npm install jshint -g
+(you might need sudo ... sudo npm install jshint -g )
+
+Place the .jshintrc file in the root of your project.
+
+run this in the terminal
+jshint filePath/fileName.js
+
+e.g.
+jshint alchemiyaServices.js
+
+This will spit out any suggestions...
+
+
