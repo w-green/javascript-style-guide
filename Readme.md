@@ -549,16 +549,25 @@ The desire to use eval() should be considered a code smell (as in, "something sm
 A quick guide is below but if you wanted to look into jshint further you can find the [docs here](http://jshint.com/docs/).
 
 Install jshint globally
+
+```
 npm install jshint -g
+```
+
 (you might need sudo ... sudo npm install jshint -g )
 
 Place the .jshintrc file in the root of your project.
 
 run this in the terminal
+
+```
 jshint filePath/fileName.js
+```
 
 e.g.
+```
 jshint alchemiyaServices.js
+```
 
 This will spit out any suggestions...
 
